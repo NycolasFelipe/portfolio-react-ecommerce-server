@@ -29,6 +29,17 @@ class ProductsController {
       return res.status(200).send(data);
     });
   }
+
+  static getProductsByCategory = async (req, res) => {
+    const category = req.params.category;
+    console.log(category);
+    db.query(`select * from product where Category = '${category}';`, (err, data) => {
+      if (err) {
+        return res.status(400).send({ message: `${err.message} - Não foi possível encontrar um produto com essa categoria.` });
+      }
+      return res.status(200).send(data);
+    });
+  }
 }
 
 module.exports = ProductsController;
