@@ -1,7 +1,8 @@
-const products = require("./productsRoutes.js");
+const user = require("./userRoute");
+const products = require("./productsRoutes");
 
 const routes = (app) => {
-  app.use(products);
+  app.use(user, products);
 }
 
 module.exports = routes;

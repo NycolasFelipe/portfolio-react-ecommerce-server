@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const db = require("./config/dbConnect.js");
-const routes = require("./routes/index.js");
+const db = require("./config/dbConnect");
+const routes = require("./routes/index");
 
 db.connect((err) => {
   if (err) throw err;
@@ -9,7 +9,7 @@ db.connect((err) => {
 });
 
 const app = express();
-app.use(express.json(), cors({ origin: "*" }));
+app.use(express.json(), express.urlencoded({ extended: true }), cors({ origin: "*" }));
 
 routes(app);
 

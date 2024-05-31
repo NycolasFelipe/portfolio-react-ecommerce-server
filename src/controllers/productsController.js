@@ -1,8 +1,9 @@
-const db = require("../config/dbConnect.js");
+const db = require("../config/dbConnect");
 
 class ProductsController {
   static getProducts = async (req, res) => {
-    db.query('select * from product;', (err, data) => {
+    const query = "SELECT * FROM product";
+    db.query(query, (err, data) => {
       if (err) {
         return res.status(500).json(err);
       }
@@ -11,8 +12,9 @@ class ProductsController {
   }
 
   static getProductsById = async (req, res) => {
-    const id = req.params.id;
-    db.query(`select * from product where ProductId = ${id};`, (err, data) => {
+    const { id } = req.params;
+    const query = "SELECT * FROM product WHERE ProductId = ?";
+    db.query(query, [id], (err, data) => {
       if (err) {
         return res.status(400).send({ message: `${err.message} - Id do produto não localizado.` });
       }
@@ -21,8 +23,9 @@ class ProductsController {
   }
 
   static getProductDetailById = async (req, res) => {
-    const id = req.params.id;
-    db.query(`select * from product_detail where ProductId = ${id};`, (err, data) => {
+    const { id } = req.params;
+    const query = "SELECT * FROM product_detail WHERE ProductId = ?";
+    db.query(query, [id], (err, data) => {
       if (err) {
         return res.status(400).send({ message: `${err.message} - Detalhe do produto com não localizado.` });
       }
@@ -31,9 +34,9 @@ class ProductsController {
   }
 
   static getProductsByCategory = async (req, res) => {
-    const category = req.params.category;
-    console.log(category);
-    db.query(`select * from product where Category = '${category}';`, (err, data) => {
+    const { category } = req.params;
+    const query = "SELECT * FROM product WHERE Category = ?";
+    db.query(query, [category], (err, data) => {
       if (err) {
         return res.status(400).send({ message: `${err.message} - Não foi possível encontrar um produto com essa categoria.` });
       }
