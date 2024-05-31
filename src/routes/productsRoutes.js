@@ -3,8 +3,9 @@ const { auth } = require("express-oauth2-jwt-bearer");
 const ProductsController = require("../controllers/productsController");
 
 const checkJwt = auth({
-  audience: 'ecommerce-user',
-  issuerBaseURL: `https://ecommerce-web.us.auth0.com/`,
+  audience: 'https://portfolio-react-ecommerce-server.vercel.app/',
+  issuerBaseURL: 'https://ecommerce-web.us.auth0.com/',
+  tokenSigningAlg: 'RS256'
 });
 
 const products = express.Router();
