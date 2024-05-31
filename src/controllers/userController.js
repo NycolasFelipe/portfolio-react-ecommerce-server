@@ -4,11 +4,7 @@ class UserController {
   static createUser = async (req, res) => {
     const { userId } = req.body;
     const query = "INSERT INTO user (UserId, PhoneNumber, Address) values (?)";
-
-    // Tratamento Id
-    const _userId = userId.split("|")[1];
-
-    const values = [[_userId, "", ""]];
+    const values = [[userId, "", ""]];
     db.query(query, values, (err, data) => {
       if (err) {
         return res.status(500).json(err);
