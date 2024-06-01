@@ -2,19 +2,24 @@ const db = require("../config/dbConnect");
 
 class UserController {
   static createUser = async (req, res) => {
-    const { userId } = req.body;
+    const data = req.body;
+    const id = data?.sub?.replace("google-oauth2|", "");
     const query = "INSERT INTO user (UserId, PhoneNumber, Address) values (?)";
-    const values = [[userId, "", ""]];
+    const values = [[id, "", "{}"]];
     db.query(query, values, (err, data) => {
-      if (err) {
+      if (err?.code === "ER_DUP_ENTRY") {
+        return res.status(202).send({ message: "Usuário já existe." });
+      }
+      else if (err) {
         return res.status(500).json(err);
       }
       return res.status(200).send({ message: `Usuário criado com sucesso.` });
     });
   }
 
-  static getUserById = async (req, res) => {
-    const { id } = req.params;
+  static getUser = async (req, res) => {
+    const data = req.body;
+    const id = data?.sub?.replace("google-oauth2|", "");
     const query = "SELECT * FROM user WHERE UserId = ?";
     db.query(query, id, (err, data) => {
       if (err) {
@@ -24,23 +29,13 @@ class UserController {
     });
   }
 
-  static updateUserById = async (req, res) => {
-    const { id } = req.params;
-    const { field, data } = req.body;
-    let query;
-
-    switch (field) {
-      case "phone":
-        query = "UPDATE user SET PhoneNumber = ? WHERE UserId = ?";
-        break;
-      case "address":
-        query = "UPDATE user SET Address = ? WHERE UserId = ?";
-        break;
-      default:
-        break;
-    }
-
-    const values = [[data], [id]];
+  static updateUser = async (req, res) => {
+    const { data } = req.body;
+    const id = data?.sub?.replace("google-oauth2|", "");
+    const address = JSON.stringify(req.body.obj.Address);
+    const phoneNumber = req.body.obj.PhoneNumber;
+    const query = "UPDATE user SET PhoneNumber = ?, Address = ? WHERE UserId = ?";
+    const values = [[phoneNumber], [address], [id]];
     db.query(query, values, (err, data) => {
       if (err) {
         return res.status(500).json(err);

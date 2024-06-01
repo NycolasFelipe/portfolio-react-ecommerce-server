@@ -5,7 +5,7 @@ const user = express.Router();
 
 user
   .post("/user/create", UserController.createUser)
-  .get("/user/:id", UserController.getUserById)
-  .patch("/user/:id", UserController.updateUserById)
+  .post("/user", UserController.getUser)
+  .patch("/user/update", UserController.updateUser)
 
 module.exports = user;
