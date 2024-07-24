@@ -45,6 +45,7 @@ DB_HOST = database host
 DB_PORT = database port
 DB_USER = database user
 DB_PASSWORD = database user password
+SENDGRID_API_KEY = sendgrid's api key to send custom email
 ```
 
 2. Substituir os valores das variáveis de ambiente com as credenciais do seu banco de dados MySQL.
