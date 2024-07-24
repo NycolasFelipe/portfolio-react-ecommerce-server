@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 class MailController {
   /**
    * Asynchronously handles incoming email contact messages and sends them using SendGrid.
