@@ -1,8 +1,9 @@
 const user = require("./userRoute");
-const products = require("./productsRoutes");
+const products = require("./productsRoute");
+const mail = require("./mailRoute");
 
 const routes = (app) => {
-  app.use(user, products);
+  app.use(user, products, mail);
 }
 
 module.exports = routes;
